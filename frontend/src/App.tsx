@@ -1,13 +1,40 @@
-import React from "react";
-import logo from "./logo.svg";
-import "./App.css";
+import {
+  Center,
+  Heading,
+  VStack,
+  Text,
+  HStack,
+  Input,
+  Button,
+} from "@chakra-ui/react";
+import { useState } from "react";
 
 function App() {
+  const [isSelected, setIsSelected] = useState(false);
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [allVideos, setAllVideos] = useState([]);
+  const [uploadSuccess, setUploadSuccess] = useState(false);
+  const [showSpinner, setShowSpinner] = useState(false);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <h1>Welcome to vStore</h1>
-      </header>
+      <Center bg="black" color="white" padding="8">
+        <VStack>
+          <Heading>Welcome to vStore</Heading>
+          <Text></Text>
+          <HStack>
+            <input
+              title="video upload"
+              type="file"
+              onChange={() => {}}
+              onClick={() => {}}
+            ></input>
+            <Button size={"lg"} colorScheme="blue" disabled>
+              Upload Video
+            </Button>
+          </HStack>
+        </VStack>
+      </Center>
     </div>
   );
 }
