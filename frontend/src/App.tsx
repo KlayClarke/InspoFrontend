@@ -6,15 +6,24 @@ import {
   HStack,
   Input,
   Button,
+  SimpleGrid,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function App() {
   const [isSelected, setIsSelected] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
-  const [allVideos, setAllVideos] = useState([]);
+  const [allVideos, setAllVideos] = useState<any>([]);
   const [uploadSuccess, setUploadSuccess] = useState(false);
   const [showSpinner, setShowSpinner] = useState(false);
+
+  useEffect(() => {
+    fetch("https://localhost:8000/videos")
+      .then((response) => response.json())
+      .then((data) => {
+        setAllVideos(data);
+      });
+  }, [uploadSuccess]);
 
   return (
     <div className="App">
@@ -33,6 +42,21 @@ function App() {
               Upload Video
             </Button>
           </HStack>
+          <Heading>Sponsored Videos</Heading>
+          <SimpleGrid columns={3} spacing={8}>
+            {allVideos.length !== 0 &&
+              allVideos.map((video: any) => {
+                return (
+                  <video
+                    src={video["video_url"]}
+                    autoPlay
+                    controls
+                    loop
+                    preload="auto"
+                  ></video>
+                );
+              })}
+          </SimpleGrid>
         </VStack>
       </Center>
     </div>
