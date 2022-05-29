@@ -1,2 +1,2 @@
-# vstore
- A web application built with React, FastAPI, PostgreSQL, AWS, Docker, NGINX, Chakra UI
+# vStore
+ A video streaming web application built with React, FastAPI, PostgreSQL, AWS, Docker, Chakra UI
