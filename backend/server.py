@@ -46,7 +46,7 @@ async def get_videos():
         database=POSTGRES_DB, user=POSTGRES_USER, password=POSTGRES_PASSWORD, host="localhost",
     )
     cur = conn.cursor()
-    cur.execute("SELECT * FROM video ORDER BY id DESC")
+    cur.execute("SELECT * FROM videos ORDER BY id DESC")
     rows = cur.fetchall()
     formatted_videos = []
     for row in rows:
@@ -58,7 +58,7 @@ async def get_videos():
     return formatted_videos
 
 
-@app.post('/videos', status_code=200)
+@app.post('/videos', status_code=201)
 async def add_video(file: UploadFile):
     # upload file to AWS S3
     s3 = boto3.resource("s3")
@@ -73,7 +73,7 @@ async def add_video(file: UploadFile):
     )
     cur = conn.cursor()
     cur.execute(
-        f"INSERT INTO video (video_title, video_url) VALUES ('{file.filename}', '{uploaded_file_url}')"
+        f"INSERT INTO videos (video_title, video_url) VALUES ('{file.filename}', '{uploaded_file_url}')"
 
     )
     conn.commit()
