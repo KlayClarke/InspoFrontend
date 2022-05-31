@@ -1,2 +1,2 @@
 # vStore
- A video streaming web application built with React, FastAPI, PostgreSQL, AWS, Docker, Chakra UI
+This repo contains the front end code (ReactJS, ChakraUI) for my very simple video streaming web application.
