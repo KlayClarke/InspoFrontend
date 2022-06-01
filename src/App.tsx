@@ -20,6 +20,7 @@ import {
   ModalContent,
   ModalFooter,
   ModalHeader,
+  Stack,
 } from "@chakra-ui/react";
 import { upload } from "@testing-library/user-event/dist/upload";
 import { useEffect, useRef, useState } from "react";
@@ -164,7 +165,10 @@ function App() {
           </VStack>
           <Heading>#Lifestyle</Heading>
           <VStack>
-            <HStack>
+            <Stack
+              flexDirection={{ base: "column", md: "row" }}
+              gap={{ base: "0px", md: "10px" }}
+            >
               <VStack>
                 {/* show half of the videos in db */}
                 {allVideos.length !== 0 &&
@@ -213,7 +217,7 @@ function App() {
                       );
                     })}
               </VStack>
-            </HStack>
+            </Stack>
           </VStack>
         </VStack>
       </Center>
