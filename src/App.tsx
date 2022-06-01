@@ -8,9 +8,21 @@ import {
   Button,
   SimpleGrid,
   Spinner,
+  Wrap,
+  WrapItem,
+  AspectRatio,
+  Flex,
+  useDisclosure,
+  Modal,
+  ModalOverlay,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
 } from "@chakra-ui/react";
 import { upload } from "@testing-library/user-event/dist/upload";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 function App() {
   const [isSelected, setIsSelected] = useState(false);
@@ -18,6 +30,8 @@ function App() {
   const [allVideos, setAllVideos] = useState<any>([]);
   const [uploadSuccess, setUploadSuccess] = useState(false);
   const [showSpinner, setShowSpinner] = useState(false);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const finalRef = useRef();
 
   function onInputChange(e: React.ChangeEvent<HTMLInputElement>) {
     e.target.files?.length && setSelectedFile(e.target.files[0]);
@@ -38,13 +52,14 @@ function App() {
           console.log("success!");
           setUploadSuccess(!uploadSuccess);
           setShowSpinner(false);
+          setIsSelected(false);
+          setSelectedFile(null);
+          onClose();
         })
         .catch((error) => {
           setShowSpinner(false);
           console.log(error);
         });
-      setSelectedFile(null);
-      setIsSelected(false);
     } catch (e) {
       console.log(e);
     }
@@ -68,46 +83,138 @@ function App() {
 
   return (
     <div className="App">
+      <Flex
+        bg="white"
+        height={"5em"}
+        padding={"6px 12px"}
+        align="center"
+        justify={"space-between"}
+      >
+        <Flex>
+          <Text fontWeight={"700"} fontSize={"25px"} colorScheme={"twitter"}>
+            vStore
+          </Text>
+        </Flex>
+        <Flex>
+          <Button size={"lg"} colorScheme={"twitter"} onClick={onOpen}>
+            Upload
+          </Button>
+        </Flex>
+        <Modal isOpen={isOpen} onClose={onClose}>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>Upload a short video</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>
+              <HStack>
+                <input
+                  title="video upload"
+                  type="file"
+                  onChange={onInputChange}
+                ></input>
+              </HStack>
+            </ModalBody>
+            <ModalFooter>
+              <Button
+                size={"lg"}
+                colorScheme="blue"
+                isDisabled={!isSelected}
+                onClick={onFileUpload}
+              >
+                Upload Video
+              </Button>
+              {showSpinner && (
+                <Center>
+                  <Spinner size={"md"}></Spinner>
+                </Center>
+              )}
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
+      </Flex>
       <Center bg="black" color="white" padding="8">
-        <VStack>
-          <Heading>Welcome to vStore</Heading>
-          <Text></Text>
-          <HStack>
-            <input
-              title="video upload"
-              type="file"
-              onChange={onInputChange}
-            ></input>
-            <Button
-              size={"lg"}
-              colorScheme="blue"
-              isDisabled={!isSelected}
-              onClick={onFileUpload}
-            >
-              Upload Video
-            </Button>
-            {showSpinner && (
-              <Center>
-                <Spinner size={"md"}></Spinner>
-              </Center>
-            )}
-          </HStack>
-          <Heading>Sponsored Videos</Heading>
-          <SimpleGrid columns={3} spacing={8}>
-            {allVideos.length !== 0 &&
-              allVideos.map((video: any) => {
-                return (
-                  <video
-                    src={video["video_url"]}
-                    autoPlay
-                    controls
-                    loop
-                    preload="auto"
-                    muted
-                  ></video>
-                );
-              })}
-          </SimpleGrid>
+        <VStack minHeight={"100vh"}>
+          <Heading>#AD</Heading>
+          <VStack>
+            <Wrap width={"100%"} justify="center">
+              {/* show first two videos in db */}
+              {allVideos.length !== 0 &&
+                allVideos
+                  .slice(-2)
+                  .reverse()
+                  .map((video: any, index: any) => {
+                    return (
+                      <WrapItem w={{ base: "100%", lg: "45%" }} key={index}>
+                        <video
+                          src={video["video_url"]}
+                          autoPlay
+                          controls
+                          loop
+                          preload="auto"
+                          muted
+                          style={{
+                            border: "1px solid black",
+                            borderRadius: "10px",
+                          }}
+                        ></video>
+                      </WrapItem>
+                    );
+                  })}
+            </Wrap>
+          </VStack>
+          <Heading>#Lifestyle</Heading>
+          <VStack>
+            <HStack>
+              <VStack>
+                {/* show half of the videos in db */}
+                {allVideos.length !== 0 &&
+                  allVideos
+                    .slice(0, allVideos.length / 2 - 1)
+                    .reverse()
+                    .map((video: any, index: any) => {
+                      return (
+                        <WrapItem height={"fit-content"} w={"100%"} key={index}>
+                          <video
+                            src={video["video_url"]}
+                            controls
+                            loop
+                            preload="auto"
+                            muted
+                            style={{
+                              border: "1px solid black",
+                              borderRadius: "10px",
+                            }}
+                          ></video>
+                        </WrapItem>
+                      );
+                    })}
+              </VStack>
+              <VStack>
+                {/* show other half of the videos in db (minus the #ad videos at the end) */}
+                {allVideos.length !== 0 &&
+                  allVideos
+                    .slice(allVideos.length / 2 - 1, allVideos.length - 2)
+                    .reverse()
+                    .map((video: any, index: any) => {
+                      return (
+                        <WrapItem height={"fit-content"} w={"100%"} key={index}>
+                          <video
+                            src={video["video_url"]}
+                            controls
+                            loop
+                            preload="auto"
+                            muted
+                            style={{
+                              border: "1px solid black",
+                              borderRadius: "10px",
+                            }}
+                          ></video>
+                        </WrapItem>
+                      );
+                    })}
+              </VStack>
+            </HStack>
+          </VStack>
         </VStack>
       </Center>
     </div>
