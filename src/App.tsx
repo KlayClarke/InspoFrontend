@@ -43,6 +43,8 @@ function App() {
           setShowSpinner(false);
           console.log(error);
         });
+      setSelectedFile(null);
+      setIsSelected(false);
     } catch (e) {
       console.log(e);
     }
