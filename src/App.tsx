@@ -4,13 +4,10 @@ import {
   VStack,
   Text,
   HStack,
-  Input,
   Button,
-  SimpleGrid,
   Spinner,
   Wrap,
   WrapItem,
-  AspectRatio,
   Flex,
   useDisclosure,
   Modal,
@@ -22,8 +19,7 @@ import {
   ModalHeader,
   Stack,
 } from "@chakra-ui/react";
-import { upload } from "@testing-library/user-event/dist/upload";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 function App() {
   const [isSelected, setIsSelected] = useState(false);
@@ -32,7 +28,6 @@ function App() {
   const [uploadSuccess, setUploadSuccess] = useState(false);
   const [showSpinner, setShowSpinner] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const finalRef = useRef();
 
   function onInputChange(e: React.ChangeEvent<HTMLInputElement>) {
     e.target.files?.length && setSelectedFile(e.target.files[0]);
@@ -193,7 +188,7 @@ function App() {
                       );
                     })}
               </VStack>
-              <VStack>
+              <VStack marginTop={{ base: "0px", md: "250px" }}>
                 {/* show other half of the videos in db (minus the #ad videos at the end) */}
                 {allVideos.length !== 0 &&
                   allVideos
