@@ -18,6 +18,7 @@ import {
   ModalFooter,
   ModalHeader,
   Stack,
+  Image,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 
@@ -62,14 +63,6 @@ function App() {
   }
 
   useEffect(() => {
-    fetch(process.env.REACT_APP_API_ENDPOINT + "status")
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-      });
-  }, []);
-
-  useEffect(() => {
     fetch(process.env.REACT_APP_API_ENDPOINT + "videos")
       .then((response) => response.json())
       .then((data) => {
@@ -77,29 +70,39 @@ function App() {
       });
   }, [uploadSuccess]);
 
+  useEffect(() => {
+    console.log(allVideos);
+  }, [allVideos]);
+
   return (
     <div className="App">
       <Flex
         bg="white"
         height={"5em"}
-        padding={"6px 12px"}
+        padding={"8"}
         align="center"
         justify={"space-between"}
+        borderBottom={"0.5px solid lightgray"}
       >
         <Flex>
-          <Text fontWeight={"700"} fontSize={"25px"} colorScheme={"twitter"}>
-            vStore
+          <Text fontWeight={"900"} fontSize={"40px"} color={"#706F6D"}>
+            Inspo
           </Text>
         </Flex>
         <Flex>
-          <Button size={"lg"} colorScheme={"twitter"} onClick={onOpen}>
+          <Button
+            size={"lg"}
+            bgColor={"#706F6D"}
+            color={"white"}
+            onClick={onOpen}
+          >
             Upload
           </Button>
         </Flex>
         <Modal isOpen={isOpen} onClose={onClose}>
           <ModalOverlay />
           <ModalContent>
-            <ModalHeader>Upload a short video</ModalHeader>
+            <ModalHeader>Upload A Beautiful Image</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
               <HStack>
@@ -113,11 +116,12 @@ function App() {
             <ModalFooter>
               <Button
                 size={"lg"}
-                colorScheme="blue"
+                bgColor={"#706F6D"}
+                color={"white"}
                 isDisabled={!isSelected}
                 onClick={onFileUpload}
               >
-                Upload Video
+                Upload Image
               </Button>
               {showSpinner && (
                 <Center>
@@ -128,37 +132,8 @@ function App() {
           </ModalContent>
         </Modal>
       </Flex>
-      <Center bg="black" color="white" padding="8">
+      <Center bg="#706F6D" padding="8">
         <VStack minHeight={"100vh"}>
-          <Heading>#AD</Heading>
-          <VStack>
-            <Wrap width={"100%"} justify="center">
-              {/* show first two videos in db */}
-              {allVideos.length !== 0 &&
-                allVideos
-                  .slice(-2)
-                  .reverse()
-                  .map((video: any, index: any) => {
-                    return (
-                      <WrapItem w={{ base: "100%", lg: "45%" }} key={index}>
-                        <video
-                          src={video["video_url"]}
-                          autoPlay
-                          controls
-                          loop
-                          preload="auto"
-                          muted
-                          style={{
-                            border: "1px solid black",
-                            borderRadius: "10px",
-                          }}
-                        ></video>
-                      </WrapItem>
-                    );
-                  })}
-            </Wrap>
-          </VStack>
-          <Heading>#Lifestyle</Heading>
           <VStack>
             <Stack
               flexDirection={{ base: "column", md: "row" }}
@@ -168,46 +143,24 @@ function App() {
                 {/* show half of the videos in db */}
                 {allVideos.length !== 0 &&
                   allVideos
-                    .slice(0, allVideos.length / 2 - 1)
-                    .reverse()
+                    .slice(0, allVideos.length / 2)
                     .map((video: any, index: any) => {
                       return (
                         <WrapItem height={"fit-content"} w={"100%"} key={index}>
-                          <video
-                            src={video["video_url"]}
-                            controls
-                            loop
-                            preload="auto"
-                            muted
-                            style={{
-                              border: "1px solid black",
-                              borderRadius: "10px",
-                            }}
-                          ></video>
+                          <Image src={video["video_url"]} borderRadius={"lg"} />
                         </WrapItem>
                       );
                     })}
               </VStack>
-              <VStack marginTop={{ base: "0px", md: "250px" }}>
+              <VStack>
                 {/* show other half of the videos in db (minus the #ad videos at the end) */}
                 {allVideos.length !== 0 &&
                   allVideos
-                    .slice(allVideos.length / 2 - 1, allVideos.length - 2)
-                    .reverse()
+                    .slice(allVideos.length / 2, allVideos.length)
                     .map((video: any, index: any) => {
                       return (
                         <WrapItem height={"fit-content"} w={"100%"} key={index}>
-                          <video
-                            src={video["video_url"]}
-                            controls
-                            loop
-                            preload="auto"
-                            muted
-                            style={{
-                              border: "1px solid black",
-                              borderRadius: "10px",
-                            }}
-                          ></video>
+                          <Image src={video.video_url} borderRadius={"lg"} />
                         </WrapItem>
                       );
                     })}
