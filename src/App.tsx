@@ -141,9 +141,7 @@ function App() {
             marginBottom={6}
           >
             <Text color={"white"} fontSize={"lg"} fontWeight={900}>
-              For those in need of inspiration. For those with the ability to
-              inspire others. For those unable to travel. For those who are
-              unable to stay in one place. The lens allows us all to see farther
+              For those in need of inspiration. For those able to inspire others. For those unable to travel. For those unable to stay in one place. The lens allows us all to see farther
               than imaginable.
             </Text>
             <br />
