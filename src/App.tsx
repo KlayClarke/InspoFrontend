@@ -121,7 +121,7 @@ function App() {
                 isDisabled={!isSelected}
                 onClick={onFileUpload}
               >
-                Upload Image
+                Inspire Us
               </Button>
               {showSpinner && (
                 <Center>
@@ -134,6 +134,23 @@ function App() {
       </Flex>
       <Center bg="#706F6D" padding="8">
         <VStack minHeight={"100vh"}>
+          <Flex
+            flexDirection={"column"}
+            align="center"
+            textAlign="center"
+            marginBottom={6}
+          >
+            <Text color={"white"} fontSize={"lg"} fontWeight={900}>
+              For those in need of inspiration. For those with the ability to
+              inspire others. For those unable to travel. For those who are
+              unable to stay in one place. The lens allows us all to see farther
+              than imaginable.
+            </Text>
+            <br />
+            <Text color={"white"} fontSize={"lg"}>
+              Klay Anthony Clarke
+            </Text>
+          </Flex>
           <VStack>
             <Stack
               flexDirection={{ base: "column", md: "row" }}
